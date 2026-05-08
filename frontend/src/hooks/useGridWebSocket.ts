@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const WS_URL = "ws://localhost:8000/ws/grid";
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8000/ws/grid";
 const RECONNECT_DELAY = 3000;
 const MAX_HISTORY = 300;
 
