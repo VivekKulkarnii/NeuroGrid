@@ -24,8 +24,8 @@ export function ControlSidebar({ scenario, setScenario, connected, paused, pause
       {/* Brand */}
       <div className="p-5 border-b border-sidebar-border">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 grid place-items-center bg-primary text-primary-foreground font-display font-bold">
-            N
+          <div className="h-8 w-8 rounded overflow-hidden">
+            <img src="/logo.png" alt="NeuroGrid Logo" className="h-full w-full object-cover" />
           </div>
           <div>
             <div className="font-display text-sm leading-tight">NeuroGrid</div>

@@ -7,6 +7,8 @@ import math
 import random
 from dataclasses import dataclass
 
+from . import config
+
 
 @dataclass
 class PriceModel:
@@ -20,16 +22,16 @@ class PriceModel:
 
     The model also provides a feed-in tariff (FIT) for solar export.
     """
-    off_peak_rate: float = 0.08   # $/kWh
-    shoulder_rate: float = 0.18   # $/kWh
-    peak_rate: float = 0.35       # $/kWh
-    feed_in_tariff: float = 0.05  # $/kWh (solar export credit)
-    demand_charge: float = 0.10   # $/kW for peak demand (monthly)
+    off_peak_rate: float = config.PRICE_OFF_PEAK_INR   # ₹/kWh
+    shoulder_rate: float = config.PRICE_SHOULDER_INR   # ₹/kWh
+    peak_rate: float = config.PRICE_PEAK_INR       # ₹/kWh
+    feed_in_tariff: float = config.PRICE_FEED_IN_TARIFF  # ₹/kWh (solar export credit)
+    demand_charge: float = config.PRICE_DEMAND_CHARGE   # ₹/kW for peak demand (monthly)
     stress_multiplier: float = 1.0  # For stress test scenario
 
     def get_price(self, hour_of_day: float) -> float:
         """
-        Returns current electricity import price in $/kWh.
+        Returns current electricity import price in ₹/kWh.
         Includes small noise for realism.
         """
         base_price = self._get_tier_price(hour_of_day)
@@ -78,7 +80,7 @@ class PriceModel:
         return base_price
 
     def get_export_price(self, hour_of_day: float) -> float:
-        """Returns feed-in tariff for solar export in $/kWh."""
+        """Returns feed-in tariff for solar export in ₹/kWh."""
         # FIT is slightly higher during peak (some utilities do this)
         if 14 <= hour_of_day < 20:
             return round(self.feed_in_tariff * 1.2, 4)

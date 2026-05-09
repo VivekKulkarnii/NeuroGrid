@@ -43,7 +43,7 @@ export function StatsPanel({ state, history }: Props) {
   const items = [
     {
       label: "Total Cost",
-      value: `$${(metrics.total_cost ?? 0).toFixed(4)}`,
+      value: `₹${(metrics.total_cost ?? 0).toFixed(2)}`,
       accent:
         (metrics.total_cost ?? 0) > 5
           ? "var(--danger)"
@@ -59,7 +59,7 @@ export function StatsPanel({ state, history }: Props) {
     },
     {
       label: "Price",
-      value: `$${(price.import_rate ?? 0).toFixed(4)}/kWh`,
+      value: `₹${(price.import_rate ?? 0).toFixed(2)}/kWh`,
       accent: tierColor,
     },
     {

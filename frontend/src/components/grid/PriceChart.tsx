@@ -37,7 +37,7 @@ const PriceTooltip = ({
       }}
     >
       <p style={{ color: "#94a3b8" }}>Hour: {d?.hour?.toFixed(1)}</p>
-      <p style={{ color: "#22d3ee" }}>Price: ${d?.price?.toFixed(4)}/kWh</p>
+      <p style={{ color: "#22d3ee" }}>Price: ₹{d?.price?.toFixed(2)}/kWh</p>
       <p style={{ color: "#64748b", textTransform: "capitalize" }}>
         Tier: {d?.tier || "unknown"}
       </p>
@@ -57,9 +57,9 @@ export function PriceChart({ history, currentHour }: Props) {
 
   const current = data.length ? data[data.length - 1]?.price ?? 0 : 0;
   const tier =
-    current >= 0.4
+    current >= 10.0
       ? { name: "PEAK", color: "var(--danger)" }
-      : current >= 0.2
+      : current >= 5.0
         ? { name: "MID", color: "var(--solar)" }
         : { name: "OFF-PEAK", color: "var(--battery)" };
 
@@ -77,7 +77,7 @@ export function PriceChart({ history, currentHour }: Props) {
         <div>
           <div className="hud-label">Tariff · time of use</div>
           <div className="stat-num text-2xl">
-            ${current.toFixed(4)}
+            ₹{current.toFixed(2)}
             <span className="text-xs text-muted-foreground"> /kWh</span>
           </div>
         </div>
@@ -111,7 +111,7 @@ export function PriceChart({ history, currentHour }: Props) {
             <YAxis
               tick={{ fill: "#64748b", fontSize: 11 }}
               stroke="rgba(255,255,255,0.1)"
-              tickFormatter={(v) => `$${v.toFixed(2)}`}
+              tickFormatter={(v) => `₹${v.toFixed(2)}`}
             />
             <Tooltip content={<PriceTooltip />} />
             <Line

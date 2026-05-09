@@ -46,3 +46,12 @@ BATTERY_MAX_SOC = 0.95     # Don't charge above 95%
 # ==========================================
 TICK_INTERVAL = 2.0        # Real seconds between simulation steps
 TIME_ACCELERATION = 120.0  # 1 real second = 120 simulated seconds (2 mins)
+
+# ==========================================
+# 💰 ELECTRICITY PRICING (INR ₹)
+# ==========================================
+PRICE_OFF_PEAK_INR = 4.00    # ₹/kWh (11 PM - 7 AM)
+PRICE_SHOULDER_INR = 7.50    # ₹/kWh (7 AM - 2 PM, 8 PM - 11 PM)
+PRICE_PEAK_INR = 12.00       # ₹/kWh (2 PM - 8 PM)
+PRICE_FEED_IN_TARIFF = 3.50  # ₹/kWh (Solar export credit)
+PRICE_DEMAND_CHARGE = 10.00  # ₹/kW (Peak demand penalty)

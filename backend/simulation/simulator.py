@@ -260,7 +260,7 @@ class GridSimulator:
                         f"Solar: {state['solar']['total_kw']:.1f}kW | "
                         f"Load: {state['grid']['total_demand_kw']:.1f}kW | "
                         f"Battery: {state['battery']['soc']:.1%} | "
-                        f"Cost: ${self.total_cost:.2f}"
+                        f"Cost: ₹{self.total_cost:.2f}"
                     )
 
                 await asyncio.sleep(self.TICK_INTERVAL)
