@@ -13,6 +13,7 @@ import paho.mqtt.client as mqtt
 
 from .devices import SolarPanel, House, EVCharger, BatteryBank
 from .price_model import PriceModel
+from . import config
 
 logger = logging.getLogger(__name__)
 
@@ -33,10 +34,10 @@ class GridSimulator:
 
     MQTT_BROKER = "localhost"
     MQTT_PORT = 1883
-    TICK_INTERVAL = 2.0        # seconds between simulation steps
-    TIME_ACCELERATION = 120.0  # 1 real second = 2 simulated minutes
+    TICK_INTERVAL = config.TICK_INTERVAL        # seconds between simulation steps
+    TIME_ACCELERATION = config.TIME_ACCELERATION  # 1 real second = 120 simulated seconds
 
-    def __init__(self, num_houses=6, num_solar=4, num_ev=3,
+    def __init__(self, num_houses=config.NUM_HOUSES, num_solar=config.NUM_SOLAR, num_ev=config.NUM_EV,
                  mqtt_broker="localhost", mqtt_port=1883):
         self.num_houses = num_houses
         self.num_solar = num_solar

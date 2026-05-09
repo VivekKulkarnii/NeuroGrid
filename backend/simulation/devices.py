@@ -9,6 +9,8 @@ import time
 from dataclasses import dataclass, field
 from typing import Optional
 
+from . import config
+
 
 @dataclass
 class SolarPanel:
@@ -19,14 +21,14 @@ class SolarPanel:
     """
     panel_id: str
     rated_capacity_kw: float = 5.0  # typical residential
-    efficiency: float = 0.85
+    efficiency: float = config.SOLAR_EFFICIENCY
     cloud_cover: float = 0.0  # 0.0 = clear, 1.0 = fully overcast
 
     def get_output(self, hour_of_day: float) -> float:
         """Returns current solar output in kW based on time of day."""
-        # Bell curve centered at 13:00 (1 PM), width ~4 hours
-        solar_peak_hour = 13.0
-        solar_width = 4.0
+        # Bell curve centered at config.SOLAR_PEAK_HOUR
+        solar_peak_hour = config.SOLAR_PEAK_HOUR
+        solar_width = config.SOLAR_PEAK_WIDTH
 
         if hour_of_day < 6.0 or hour_of_day > 20.0:
             return 0.0  # no sun
@@ -58,11 +60,11 @@ class House:
 
     def get_load(self, hour_of_day: float) -> float:
         """Returns current power consumption in kW."""
-        # Morning peak (7-9 AM): cooking, getting ready
-        morning_peak = math.exp(-0.5 * ((hour_of_day - 8.0) / 1.0) ** 2) * 0.6
+        # Morning peak
+        morning_peak = math.exp(-0.5 * ((hour_of_day - config.HOUSE_MORNING_PEAK_HOUR) / 1.0) ** 2) * 0.6
 
-        # Evening peak (7-10 PM): cooking, TV, heating/cooling
-        evening_peak = math.exp(-0.5 * ((hour_of_day - 19.5) / 1.5) ** 2) * 1.0
+        # Evening peak
+        evening_peak = math.exp(-0.5 * ((hour_of_day - config.HOUSE_EVENING_PEAK_HOUR) / 1.5) ** 2) * 1.0
 
         # Midday baseline bump (lunch, WFH)
         midday = math.exp(-0.5 * ((hour_of_day - 12.5) / 2.0) ** 2) * 0.3
@@ -74,7 +76,7 @@ class House:
         activity = morning_peak + evening_peak + midday + night_factor
 
         # Scale by occupants (more people = slightly more load)
-        occupant_factor = 0.7 + (self.occupants * 0.1)
+        occupant_factor = 0.7 + (self.occupants * config.HOUSE_OCCUPANT_SCALAR)
 
         # Add realistic noise (±10%) — each house has unique noise pattern
         noise = 1.0 + 0.1 * math.sin(hour_of_day * 3.7 + self._activity_seed * 100)
@@ -91,11 +93,11 @@ class EVCharger:
     EVs typically charge overnight or when plugged in after work.
     """
     charger_id: str
-    max_charge_rate_kw: float = 7.2  # Level 2 charger
+    max_charge_rate_kw: float = config.EV_MAX_CHARGE_RATE_KW
     current_throttle: float = 1.0    # 0.0 to 1.0 (AI can throttle)
     is_connected: bool = False
     battery_soc: float = 0.5         # State of charge (0-1)
-    battery_capacity_kwh: float = 60.0  # Typical EV battery
+    battery_capacity_kwh: float = config.EV_BATTERY_CAPACITY_KWH
 
     def get_load(self, hour_of_day: float) -> float:
         """Returns current charging load in kW."""
@@ -133,7 +135,7 @@ class EVCharger:
     def _connection_probability(self, hour: float) -> float:
         """Probability of an EV connecting at this hour."""
         # Peak connection after work hours
-        evening = math.exp(-0.5 * ((hour - 18.0) / 1.5) ** 2)
+        evening = math.exp(-0.5 * ((hour - config.EV_PEAK_CONNECTION_HOUR) / 1.5) ** 2)
         return evening
 
     def set_throttle(self, throttle: float):
@@ -148,13 +150,13 @@ class BatteryBank:
     The AI agent controls charge/discharge decisions.
     """
     battery_id: str = "community_battery"
-    capacity_kwh: float = 50.0       # 50 kWh community battery
+    capacity_kwh: float = config.BATTERY_CAPACITY_KWH
     current_soc: float = 0.5         # State of charge (0-1)
-    max_charge_rate_kw: float = 10.0  # Max charge power
-    max_discharge_rate_kw: float = 10.0  # Max discharge power
-    efficiency: float = 0.92          # Round-trip efficiency
-    min_soc: float = 0.1             # Don't discharge below 10%
-    max_soc: float = 0.95            # Don't charge above 95%
+    max_charge_rate_kw: float = config.BATTERY_MAX_CHARGE_RATE_KW
+    max_discharge_rate_kw: float = config.BATTERY_MAX_DISCHARGE_RATE_KW
+    efficiency: float = config.BATTERY_EFFICIENCY
+    min_soc: float = config.BATTERY_MIN_SOC
+    max_soc: float = config.BATTERY_MAX_SOC
 
     @property
     def current_energy_kwh(self) -> float:
