@@ -1,7 +1,7 @@
-# ⚡ GridMind (formerly MC-IOT)
+# ⚡ NeuroGrid
 **AI-Powered Smart Neighbourhood Power Grid Simulation**
 
-Welcome to **GridMind**—a full-stack, real-time energy management simulation. This project demonstrates how autonomous Reinforcement Learning (RL) agents can optimize energy consumption, battery storage, and EV charging within a residential microgrid to minimize costs and prevent blackouts.
+Welcome to **NeuroGrid**—a full-stack, real-time energy management simulation. This project demonstrates how autonomous Reinforcement Learning (RL) agents can optimize energy consumption, battery storage, and EV charging within a residential microgrid to minimize costs and prevent blackouts, specifically calibrated for the Indian energy market.
 
 ---
 
@@ -9,73 +9,76 @@ Welcome to **GridMind**—a full-stack, real-time energy management simulation. 
 
 ```mermaid
 flowchart LR
-    subgraph Backend [Python / FastAPI]
+    subgraph Cloud_Backend [Render / Python]
         Sim[Simulation Engine\nasyncio] <--> DB[(SQLite DB)]
         RL[RL Agent\nPPO] <--> Sim
-        Sim -- "WebSocket (live state & actions)" --> API[FastAPI endpoint]
+        Sim -- "WebSocket" --> API[FastAPI]
     end
 
-    subgraph Frontend [React / Vite]
-        API <--> Dash[Interactive Dashboard]
+    subgraph Cloud_Frontend [Cloudflare / React]
+        API <--> Dash[NeuroGrid Dashboard]
     end
 ```
 
-The system uses direct integration between the asynchronous Python simulation engine and the FastAPI server, streaming telemetry data to the React dashboard via WebSockets.
+The system is a distributed cloud application with a FastAPI/Python backend (Render) and a React/TanStack frontend (Cloudflare Workers), communicating via live WebSockets.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Deployment & Setup
 
-### 1. Backend Setup
+### 🌍 Live Deployment
+* **Frontend:** [https://tanstack-start-app.vivekrkulkarni30012006.workers.dev](https://tanstack-start-app.vivekrkulkarni30012006.workers.dev)
+* **Backend:** [https://neurogrid-da21.onrender.com](https://neurogrid-da21.onrender.com)
 
-The backend runs the simulation loop and serves the WebSocket and REST endpoints.
+### 🛠️ Local Development
 
+#### 1. Backend Setup (Python 3.11+)
 ```bash
 cd backend
 pip install -r requirements.txt
 python -m api.main
 ```
-> **Note**: The backend starts at `http://localhost:8000`.
+> **Note**: For cloud compatibility, use the CPU-only PyTorch index: `--extra-index-url https://download.pytorch.org/whl/cpu`
 
-### 2. Frontend Setup
-
-The interactive dashboard is built with React, Vite, and TanStack.
-
+#### 2. Frontend Setup (Node.js)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-> **Note**: The dashboard typically opens at `http://localhost:5173`.
-
-### 3. (Optional) Train the RL Agent
-
-Train the PPO agent from scratch using the Gymnasium environment.
-
-```bash
-cd backend
-python -m ai.train --timesteps 100000
-```
 
 ---
 
-## 📊 Demo Scenarios
+## ⚙️ Simulation Configuration
+The simulation is highly customizable via a central configuration file. You can alter neighborhood size, battery capacity, and electricity tariffs without touching the core logic.
+
+**File:** `backend/simulation/config.py`
+
+| Parameter | Default Value | Description |
+|-----------|---------------|-------------|
+| `NUM_HOUSES` | 6 | Total number of residential units. |
+| `BATTERY_CAPACITY_KWH` | 50.0 | Capacity of the community battery. |
+| `PRICE_PEAK_INR` | ₹12.00 | Peak electricity rate per kWh. |
+| `TIME_ACCELERATION` | 120.0 | 1 real second = 2 simulated minutes. |
+
+---
+
+## 📊 Indian Energy Scenarios
+Everything in NeuroGrid is calibrated in **Indian Rupees (₹)**.
 
 | Scenario | Controller | Expected Behavior |
 |----------|-----------|-------------|
-| 📉 **Baseline** | Rule-based (Thresholds) | Unstable loads, random battery usage, and high costs. |
-| 🧠 **AI Agent** | RL (PPO) | Smooth curves, optimized battery cycles, and low costs. |
-| 🌩️ **Stress Test** | AI under duress | Injects cloud cover & EV surge events. Watch the AI adapt vs the baseline! |
+| 📉 **Baseline** | Rule-based | High costs (₹), inefficient battery cycling. |
+| 🧠 **AI Agent** | RL (PPO) | Optimized for TOU (Time of Use) tariffs. |
+| 🌩️ **Stress Test** | AI under duress | Adapts to cloud cover and EV surges in real-time. |
 
 ---
 
 ## 🤖 AI Component Details
 
-* **Observation Space (10 dimensions)**: Hour, solar output, house load, EV demand, battery SOC, electricity price, net load, price tier, and available charge/discharge rates.
-* **Action Space (2 continuous)**: Battery charge/discharge (-1.0 to +1.0) and EV throttle (0.0 to 1.0).
-* **Reward Function**: Minimizes energy cost, penalizes grid blackouts, and prefers a healthy battery state-of-charge.
-
-**What emerges**: The agent autonomously discovers real-world strategies—like charging the battery at noon (when solar is peak), discharging at 7 PM (peak pricing), and delaying EV charging to late night off-peak hours.
+* **Observation Space**: Hour, solar, house load, EV demand, battery SOC, ₹ price, net load.
+* **Action Space**: Battery charge/discharge (-1.0 to +1.0) and EV throttle (0.0 to 1.0).
+* **Reward Function**: Minimizes ₹ cost, penalizes blackouts, and maintains battery health.
 
 ---
 
@@ -83,12 +86,13 @@ python -m ai.train --timesteps 100000
 
 ```text
 backend/
-  ├── simulation/      # Device models, Gym environment, async simulator
-  ├── ai/              # RL agent (PPO), rule-based controller, training scripts
-  └── api/             # FastAPI app, WebSocket handlers, SQLite db connection
+  ├── simulation/      # config.py, device models, async simulator
+  ├── ai/              # RL agent (PPO), training scripts
+  └── api/             # FastAPI app, WebSocket handlers
 frontend/
+  ├── public/          # Logo and Favicon assets
   └── src/
-      ├── components/  # React dashboard components & UI
+      ├── components/  # React dashboard components (₹ enabled)
       ├── routes/      # TanStack routing
-      └── hooks/       # Custom WebSocket connection hook
+      └── hooks/       # WebSocket logic (VITE_WS_URL enabled)
 ```
