@@ -17,13 +17,13 @@ import { HousesGrid } from "@/components/grid/HousesGrid";
 export const Route = createFileRoute("/")(({
   head: () => ({
     meta: [
-      { title: "MC-IOT — Smart Neighbourhood Power Grid" },
+      { title: "NeuroGrid — Smart Neighbourhood Power Grid" },
       {
         name: "description",
         content:
           "Live simulation console for an RL-optimized smart neighbourhood power grid: solar, battery, EV chargers, and AI agent decisions in real time.",
       },
-      { property: "og:title", content: "MC-IOT — Smart Grid Console" },
+      { property: "og:title", content: "NeuroGrid — Smart Grid Console" },
       {
         property: "og:description",
         content:
@@ -87,10 +87,10 @@ function Index() {
           <header className="h-14 border-b border-border flex items-center justify-between px-5 bg-surface shrink-0">
             <div className="flex items-center gap-4">
               <h1 className="font-display text-base">
-                <span className="text-muted-foreground">Console</span> / Live Grid
+                <span className="text-muted-foreground">NeuroGrid</span> / Live Console
               </h1>
               <span className="font-mono text-[11px] text-muted-foreground hidden md:block">
-                WS://localhost:8000/ws/grid · MQTT://localhost:1883
+                {import.meta.env.VITE_WS_URL?.replace("wss://", "WS://") || "WS://localhost:8000"} · LIVE
               </span>
             </div>
             <div className="flex items-center gap-5 font-mono text-[11px]">

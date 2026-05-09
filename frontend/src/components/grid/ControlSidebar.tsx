@@ -25,10 +25,10 @@ export function ControlSidebar({ scenario, setScenario, connected, paused, pause
       <div className="p-5 border-b border-sidebar-border">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 grid place-items-center bg-primary text-primary-foreground font-display font-bold">
-            M
+            N
           </div>
           <div>
-            <div className="font-display text-sm leading-tight">MC-IOT</div>
+            <div className="font-display text-sm leading-tight">NeuroGrid</div>
             <div className="hud-label leading-tight">Smart Grid Console</div>
           </div>
         </div>
