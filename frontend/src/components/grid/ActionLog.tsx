@@ -17,19 +17,33 @@ interface Props {
 export function ActionLog({ actions, scenario }: Props) {
   const logRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom
-  useEffect(() => {
+  const scrollToLatest = () => {
     if (logRef.current) {
-      logRef.current.scrollTop = logRef.current.scrollHeight;
+      logRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // Auto-scroll to top only if we're already near the top
+  useEffect(() => {
+    if (logRef.current && logRef.current.scrollTop < 100) {
+      logRef.current.scrollTop = 0;
     }
   }, [actions]);
 
   return (
     <div className="panel p-4 h-full flex flex-col">
       <div className="flex items-center justify-between mb-3">
-        <div>
-          <div className="hud-label">Decision stream</div>
-          <h3 className="font-display text-lg">Agent Log</h3>
+        <div className="flex items-center gap-3">
+          <div>
+            <div className="hud-label">Decision stream</div>
+            <h3 className="font-display text-lg">Agent Log</h3>
+          </div>
+          <button
+            onClick={scrollToLatest}
+            className="mt-1 h-6 px-2 text-[10px] font-mono tracking-tighter border border-border hover:bg-surface-2 transition-colors rounded uppercase text-muted-foreground hover:text-foreground"
+          >
+            Jump to Latest
+          </button>
         </div>
         <div className="flex items-center gap-2">
           {scenario && (

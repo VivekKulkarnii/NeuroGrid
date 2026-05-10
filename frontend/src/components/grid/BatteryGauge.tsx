@@ -32,7 +32,7 @@ export function BatteryGauge({ soc, battKw, energyKwh = 0, capacityKwh = 50 }: P
 
       <div className="flex-1 flex items-center justify-center my-3">
         <div className="relative w-full max-w-[220px] aspect-[2/1]">
-          <svg viewBox="0 0 200 100" className="w-full h-full">
+          <svg viewBox="0 -10 200 110" className="w-full h-full">
             <path
               d="M10 90 A 90 90 0 0 1 190 90"
               fill="none"

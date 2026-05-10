@@ -152,10 +152,10 @@ function Index() {
             </div>
 
             {/* Energy chart + Action log */}
-            <div className="col-span-12 lg:col-span-7 min-h-[260px]">
+            <div className="col-span-12 lg:col-span-7 h-[500px]">
               <EnergyChart history={history} />
             </div>
-            <div className="col-span-12 lg:col-span-5 min-h-[260px]">
+            <div className="col-span-12 lg:col-span-5 h-[500px]">
               <ActionLog
                 actions={actionLog}
                 scenario={activeScenario}

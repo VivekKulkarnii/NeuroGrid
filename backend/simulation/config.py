@@ -6,52 +6,52 @@ Modify these values to test different scenarios and neighborhood sizes.
 # ==========================================
 # 🏘️ GRID ARCHITECTURE
 # ==========================================
-NUM_HOUSES = 6
-NUM_SOLAR = 4
-NUM_EV = 3
+NUM_HOUSES = 8               # Total homes in the neighborhood
+NUM_SOLAR = 5                # Homes equipped with solar panels
+NUM_EV = 4                   # Total electric vehicles in the neighborhood
 
 # ==========================================
 # ☀️ SOLAR PANEL SETTINGS
 # ==========================================
-SOLAR_EFFICIENCY = 0.85
-SOLAR_PEAK_HOUR = 13.0     # 1 PM
-SOLAR_PEAK_WIDTH = 4.0     # Hours of effective sunlight spread
+SOLAR_EFFICIENCY = 0.82      # Accounts for heat/dust losses (82% usable)
+SOLAR_PEAK_HOUR = 12.5       # Time of day for max sunlight (12:30 PM)
+SOLAR_PEAK_WIDTH = 3.5       # How many hours the sun stays strong
 
 # ==========================================
 # 🏠 HOUSE LOAD SETTINGS
 # ==========================================
-HOUSE_MORNING_PEAK_HOUR = 8.0
-HOUSE_EVENING_PEAK_HOUR = 19.5
-HOUSE_OCCUPANT_SCALAR = 0.1  # Load increase per occupant
+HOUSE_MORNING_PEAK_HOUR = 7.5  # Typical morning rush (7:30 AM)
+HOUSE_EVENING_PEAK_HOUR = 20.0 # Typical evening peak (8:00 PM)
+HOUSE_OCCUPANT_SCALAR = 0.12   # Extra power used per additional person
 
 # ==========================================
 # 🚗 EV CHARGER SETTINGS
 # ==========================================
-EV_MAX_CHARGE_RATE_KW = 7.2
-EV_BATTERY_CAPACITY_KWH = 60.0
-EV_PEAK_CONNECTION_HOUR = 18.0  # 6 PM
+EV_MAX_CHARGE_RATE_KW = 7.4    # Max speed of car chargers (Standard AC)
+EV_BATTERY_CAPACITY_KWH = 45.0 # Average car battery size (e.g. Nexon EV)
+EV_PEAK_CONNECTION_HOUR = 18.5 # When most people plug in (6:30 PM)
 
 # ==========================================
 # 🔋 COMMUNITY BATTERY SETTINGS
 # ==========================================
-BATTERY_CAPACITY_KWH = 50.0
-BATTERY_MAX_CHARGE_RATE_KW = 10.0
-BATTERY_MAX_DISCHARGE_RATE_KW = 10.0
-BATTERY_EFFICIENCY = 0.92
-BATTERY_MIN_SOC = 0.1      # Don't drain below 10%
-BATTERY_MAX_SOC = 0.95     # Don't charge above 95%
+BATTERY_CAPACITY_KWH = 60.0          # Total storage capacity of the grid
+BATTERY_MAX_CHARGE_RATE_KW = 25.0    # Speed of filling the battery
+BATTERY_MAX_DISCHARGE_RATE_KW = 30.0 # Speed of draining the battery
+BATTERY_EFFICIENCY = 0.90            # Energy lost during charging/discharging
+BATTERY_MIN_SOC = 0.15               # Minimum 15% charge (protects battery)
+BATTERY_MAX_SOC = 0.95               # Maximum 95% charge (prevents overcharge)
 
 # ==========================================
 # ⏱️ SIMULATION ENGINE SETTINGS
 # ==========================================
-TICK_INTERVAL = 2.0        # Real seconds between simulation steps
-TIME_ACCELERATION = 120.0  # 1 real second = 120 simulated seconds (2 mins)
+TICK_INTERVAL = 2.0        # Real seconds between dashboard updates
+TIME_ACCELERATION = 120.0  # Speed factor (1s real = 120s simulated)
 
 # ==========================================
 # 💰 ELECTRICITY PRICING (INR ₹)
 # ==========================================
-PRICE_OFF_PEAK_INR = 4.00    # ₹/kWh (11 PM - 7 AM)
-PRICE_SHOULDER_INR = 7.50    # ₹/kWh (7 AM - 2 PM, 8 PM - 11 PM)
-PRICE_PEAK_INR = 12.00       # ₹/kWh (2 PM - 8 PM)
-PRICE_FEED_IN_TARIFF = 3.50  # ₹/kWh (Solar export credit)
-PRICE_DEMAND_CHARGE = 10.00  # ₹/kW (Peak demand penalty)
+PRICE_OFF_PEAK_INR = 4.50    # Night rate (10 PM - 6 AM)
+PRICE_SHOULDER_INR = 8.20    # Standard daytime rate
+PRICE_PEAK_INR = 13.50       # High-demand evening rate (6 PM - 10 PM)
+PRICE_FEED_IN_TARIFF = 3.80  # What you earn for selling solar to grid
+PRICE_DEMAND_CHARGE = 250.0  # Fine for pulling too much power at once

@@ -1,5 +1,4 @@
-@import "tailwindcss" source(none);
-@source "../src";
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -178,3 +177,19 @@
 }
 .flow { stroke-dasharray: 4 6; animation: flow-dash 1s linear infinite; }
 .flow-rev { stroke-dasharray: 4 6; animation: flow-dash 1s linear infinite reverse; }
+
+/* Custom Industrial Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
