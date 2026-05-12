@@ -15,19 +15,18 @@ flowchart LR
         Sim -- "WebSocket" --> API[FastAPI]
     end
 
-    subgraph Cloud_Frontend [Cloudflare / React]
+    subgraph Frontend [Next.js / React]
         API <--> Dash[NeuroGrid Dashboard]
     end
 ```
 
-The system is a distributed cloud application with a FastAPI/Python backend (Render) and a React/TanStack frontend (Cloudflare Workers), communicating via live WebSockets.
+The system is a distributed application with a FastAPI/Python backend and a Next.js frontend, communicating via live WebSockets.
 
 ---
 
 ## 🚀 Deployment & Setup
 
 ### 🌍 Live Deployment
-* **Frontend:** [https://tanstack-start-app.vivekrkulkarni30012006.workers.dev](https://tanstack-start-app.vivekrkulkarni30012006.workers.dev)
 * **Backend:** [https://neurogrid-da21.onrender.com](https://neurogrid-da21.onrender.com)
 
 ### 🛠️ Local Development
@@ -92,7 +91,8 @@ backend/
 frontend/
   ├── public/          # Logo and Favicon assets
   └── src/
+      ├── app/         # Next.js App Router (Layout, Page, Providers)
       ├── components/  # React dashboard components (₹ enabled)
-      ├── routes/      # TanStack routing
-      └── hooks/       # WebSocket logic (VITE_WS_URL enabled)
+      ├── hooks/       # WebSocket logic (NEXT_PUBLIC_WS_URL enabled)
+      └── lib/         # Utility functions and error handling
 ```
