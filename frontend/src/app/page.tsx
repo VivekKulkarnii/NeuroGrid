@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+"use client";
+
 import { useState } from "react";
 import {
   useGridWebSocket,
@@ -14,27 +15,7 @@ import { ActionLog } from "@/components/grid/ActionLog";
 import { StatsPanel } from "@/components/grid/StatsPanel";
 import { HousesGrid } from "@/components/grid/HousesGrid";
 
-export const Route = createFileRoute("/")(({
-  head: () => ({
-    meta: [
-      { title: "NeuroGrid — Smart Neighbourhood Power Grid" },
-      {
-        name: "description",
-        content:
-          "Live simulation console for an RL-optimized smart neighbourhood power grid: solar, battery, EV chargers, and AI agent decisions in real time.",
-      },
-      { property: "og:title", content: "NeuroGrid — Smart Grid Console" },
-      {
-        property: "og:description",
-        content:
-          "Real-time simulation of a smart neighbourhood grid with reinforcement learning energy optimization.",
-      },
-    ],
-  }),
-  component: Index,
-} as any));
-
-function Index() {
+export default function Index() {
   const {
     connected,
     paused,
@@ -90,7 +71,7 @@ function Index() {
                 <span className="text-muted-foreground">NeuroGrid</span> / Live Console
               </h1>
               <span className="font-mono text-[11px] text-muted-foreground hidden md:block">
-                {import.meta.env.VITE_WS_URL?.replace("wss://", "WS://") || "WS://localhost:8000"} · LIVE
+                {process.env.NEXT_PUBLIC_WS_URL?.replace("wss://", "WS://") || "WS://localhost:8000"} · LIVE
               </span>
             </div>
             <div className="flex items-center gap-5 font-mono text-[11px]">
