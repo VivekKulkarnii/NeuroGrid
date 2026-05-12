@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///D:/Coding/MC-IOT%20project/frontend/src/app/Providers.tsx"],"sourcesContent":["\"use client\";\n\nimport { QueryClient, QueryClientProvider } from \"@tanstack/react-query\";\nimport { useState } from \"react\";\n\nexport function Providers({ children }: { children: React.ReactNode }) {\n  const [queryClient] = useState(() => new QueryClient());\n  return (\n    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>\n  );\n}\n"],"names":["Providers","children","queryClient","client"],"mappings":";;;;;AAEA;AAAA;AACA;;;AAHA;;;AAKO,SAASA,UAAU,EAAEC,QAAQ,EAAiC;;IACnE,MAAM,CAACC,YAAY,GAAG,IAAA,yKAAQ;8BAAC,IAAM,IAAI,+LAAW;;IACpD,qBACE,6LAAC,gNAAmB;QAACC,QAAQD;kBAAcD;;;;;;AAE/C;GALgBD;KAAAA"}}]
-}
