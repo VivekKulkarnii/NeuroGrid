@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8000/ws/grid";
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws/grid";
 const RECONNECT_DELAY = 3000;
 const MAX_HISTORY = 300;
 
@@ -79,6 +79,7 @@ export function useGridWebSocket() {
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
+    console.log("[WS] Connecting to:", WS_URL);
     const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
 
