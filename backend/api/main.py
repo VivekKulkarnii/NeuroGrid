@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from simulation.simulator import GridSimulator
 from simulation.price_model import PriceModel
+from simulation import config
 from ai.rule_based import RuleBasedController
 from ai.rl_agent import RLAgent
 from api.database import init_db, save_snapshot, save_action, get_recent_snapshots, get_recent_actions, get_scenario_comparison
@@ -55,7 +56,9 @@ async def lifespan(app: FastAPI):
 
     # Create simulator (MQTT integration)
     simulator = GridSimulator(
-        num_houses=6, num_solar=4, num_ev=3,
+        num_houses=config.NUM_HOUSES, 
+        num_solar=config.NUM_SOLAR, 
+        num_ev=config.NUM_EV,
         mqtt_broker="localhost", mqtt_port=1883
     )
     simulator._setup_mqtt()

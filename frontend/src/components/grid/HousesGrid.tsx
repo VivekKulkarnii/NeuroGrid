@@ -32,7 +32,7 @@ export function HousesGrid({ state }: Props) {
           </span>
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
         {houses.map((h, i) => {
           const ev = evByIndex[i];
           const evLoad = ev?.connected ? (ev.load_kw ?? 0) : 0;
@@ -76,7 +76,7 @@ export function HousesGrid({ state }: Props) {
       {evs.length > 0 && (
         <div className="mt-3">
           <div className="hud-label mb-2">EV Chargers · MQTT grid/ev/*</div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
             {evs.map((ev, i) => (
               <div
                 key={ev.id ?? i}
