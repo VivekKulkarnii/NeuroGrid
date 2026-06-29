@@ -96,3 +96,14 @@ frontend/
       ├── hooks/       # WebSocket logic (NEXT_PUBLIC_WS_URL enabled)
       └── lib/         # Utility functions and error handling
 ```
+
+<!-- START_SECTION:repo-maintenance-stats -->
+### 📊 Repository Status Report
+* **Maintenance Score**: `45/100`
+* **Open Issues**: `0` | **Stars**: `0`
+* **Outdated Packages**: `0`
+* **Stale Branches**: `0`
+* **Last Evaluated**: `2026-06-29 12:04:57 UTC`
+
+*Report updated automatically by [DatabaseBot](https://github.com/VivekKulkarnii/DatabaseBot).*
+<!-- END_SECTION:repo-maintenance-stats -->
