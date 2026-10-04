@@ -96,3 +96,12 @@ frontend/
       ├── hooks/       # WebSocket logic (NEXT_PUBLIC_WS_URL enabled)
       └── lib/         # Utility functions and error handling
 ```
+
+<!-- START_SECTION:repo-maintenance-stats -->
+### 📊 Repository Status Report
+* **Maintenance Score**: `45/100`
+* **Open Issues**: `0` | **Stars**: `0`
+* **Outdated Packages**: `0`
+* **Stale Branches**: `0`
+<!-- Run: 2026-07-22 07:32:39 UTC -->
+<!-- END_SECTION:repo-maintenance-stats -->
